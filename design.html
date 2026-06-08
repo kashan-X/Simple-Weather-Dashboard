@@ -1,101 +1,159 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DASHBOARD</title>
+    <title>WeatherNow Dashboard</title>
     <link rel="stylesheet" href="design.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-
 <body>
-    
 
-
-
-
-     <!-- HTML Code for Side Bar   -->
+    <!-- Sidebar -->
     <div class="sidebar">
-        <div class="logo">
-            <img src="C:\Users\Admin\OneDrive\Desktop\Simple_Weather_Dashboad\Images\logo1.png">
+        <div class="logo-wrap">
+            <img src="Images/logo1.png" alt="WeatherNow" class="logo-img"
+                 onerror="this.style.display='none'; document.getElementById('logo-text').style.display='block'">
+            <span id="logo-text" class="logo-fallback">🌤 WeatherNow</span>
         </div>
         <nav>
-            <a href="#dashboard" id="dashboard" class="nav-link active">Dashboard</a>
-            <a href="#tables"  id="table" class="nav-link">Tables</a>
+            <a href="#dashboard" id="dashboard" class="nav-link active">
+                <span class="nav-icon">◈</span> Dashboard
+            </a>
+            <a href="#tables" id="table" class="nav-link">
+                <span class="nav-icon">◫</span> Forecast Table
+            </a>
         </nav>
+
+        <!-- Dark/Light Toggle -->
+        <div class="theme-toggle-wrap">
+            <span class="toggle-label">Theme</span>
+            <button id="themeToggle" class="theme-btn" title="Toggle theme">
+                <span id="themeIcon">☀️</span>
+            </button>
+        </div>
+
+        <!-- Unit Toggle -->
+        <div class="unit-toggle-wrap">
+            <span class="toggle-label">Unit</span>
+            <div class="unit-toggle">
+                <button id="celsiusBtn" class="unit-btn active">°C</button>
+                <button id="fahrenheitBtn" class="unit-btn">°F</button>
+            </div>
+        </div>
+
+        <div class="sidebar-footer">
+            <p>Powered by OpenWeather</p>
+        </div>
     </div>
 
+    <!-- Profile Picture -->
+    <img src="Images/picture.jpg" alt="Profile" class="profile_picture"
+         onerror="this.style.display='none'">
 
-     <!-- HTML Code for profile picture  -->
-    <img src="C:\Users\Admin\OneDrive\Desktop\Simple_Weather_Dashboad\Images\picture.jpg" alt="profile" class="profile_picture">
-     
-
-
-  <!-- HTML Code for loader spinner -->
+    <!-- Spinner -->
     <div id="spinner">
         <div class="loader"></div>
+        <span class="spinner-text">Fetching...</span>
     </div>
 
-
-
-      <!-- HTML Code for the to get the city name  -->
+    <!-- Main Content -->
     <div class="center_content">
+
+        <!-- Dashboard View -->
         <div id="weather-details">
-        <h1>Weather Details</h1>
-        <input type="text" id="cityInput" placeholder="Enter city name">
-        <button id="getWeatherBtn">Get Weather</button>
+            <div class="page-header">
+                <h1>Weather Dashboard</h1>
+                <p class="subtitle">Real-time weather &amp; 5-day forecast</p>
+            </div>
 
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <div class="search-input-wrap">
+                    <input type="text" id="cityInput" placeholder="Search city...">
+                    <button id="geoBtn" title="Use my location">📍</button>
+                </div>
+                <button id="getWeatherBtn">
+                    <span>Get Weather</span>
+                    <span class="btn-icon">→</span>
+                </button>
+            </div>
 
+            <!-- Search History -->
+            <div id="search-history" class="search-history"></div>
 
-          <!-- HTML Code for the section where the 3 type of charts (line,bar and doughnut chart) will display -->
-        <div id="weather-widget"></div>
-        <div class="charts_section">
-        <canvas id="temperature-bar-chart" width="250px" height="250px"></canvas>
-        <canvas id="weather-doughnut-c" width="40px" height="400px"></canvas>
-        <canvas id="temperature-line-c" ></canvas>
-    </div>
-    </div>
+            <!-- Weather Widget -->
+            <div id="weather-widget"></div>
 
+            <!-- Summary Stats Cards -->
+            <div id="stats-cards" class="stats-cards" style="display:none;">
+                <div class="stat-card">
+                    <div class="stat-card-label">🔺 Highest</div>
+                    <div class="stat-card-value" id="stat-high">--</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-label">🔻 Lowest</div>
+                    <div class="stat-card-value" id="stat-low">--</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-label">∅ Average</div>
+                    <div class="stat-card-value" id="stat-avg">--</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-label">📊 Entries</div>
+                    <div class="stat-card-value" id="stat-count">--</div>
+                </div>
+            </div>
 
-
-      <!-- HTML Code for the container where the weather details display -->
-    <div class="for_forcast_chatbox_container" style="display: none; display: flex; justify-content: space-around;">
-        <div id="forecast-container" style="display: none;" >
-            <h2> FORECAST TABLE</h2>
-            <table id="forecast-table"></table>
+            <!-- Charts -->
+            <div class="charts-header">
+                <h2>Temperature Analytics</h2>
+            </div>
+            <div class="charts_section">
+                <div class="chart-card">
+                    <h3>Bar Chart</h3>
+                    <canvas id="temperature-bar-chart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Conditions</h3>
+                    <canvas id="weather-doughnut-c"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Line Trend</h3>
+                    <canvas id="temperature-line-c"></canvas>
+                </div>
+            </div>
         </div>
 
+        <!-- Forecast + Chatbox View -->
+        <div class="for_forcast_chatbox_container" style="display:none;">
+            <div id="forecast-container" style="display:none;">
+                <div class="page-header">
+                    <h2>5-Day Forecast Table</h2>
+                    <p class="subtitle">Detailed weather breakdown</p>
+                </div>
+                <table id="forecast-table"></table>
+            </div>
 
-
-          <!-- HTML Code for the container of  chatbox  -->
-        <div id="chatbox-container" style="display: none;"  >
-            
-            <h3> CHATBOX..</h3>
-            <input type="text" id="question" placeholder="Ask Me about Weather....">
-            <button id="Sendbutton">Enter</button>
-            
-            <div id="Answer"></div>
-            
-              <button id="removebutton">Delete</button>
-            
+            <div id="chatbox-container" style="display:none;">
+                <div class="chatbox-header">
+                    <span class="chat-dot"></span>
+                    <h3>Weather Assistant</h3>
+                </div>
+                <div id="Answer"></div>
+                <div class="chat-input-row">
+                    <input type="text" id="question" placeholder="Ask about weather...">
+                    <button id="Sendbutton">Send</button>
+                </div>
+                <button id="removebutton">Clear Chat</button>
+            </div>
         </div>
+
     </div>
 
-</div>
-
-
-
-
-
- <!-- javascript files  -->
-
-<script src="design.js"></script>
-<script src="chart.js"></script>
-<script src="Chatbox.js"></script>
-
-
-
-
-
+    <script src="design.js"></script>
+    <script src="chart.js"></script>
+    <script src="Chatbox.js"></script>
 </body>
 </html>

@@ -1,68 +1,63 @@
-const chatbox_input = document.getElementById('question'); // id of input we enter
-const chatbox_output = document.getElementById('Answer'); // id of output that computer displays
+const chatbox_input = document.getElementById('question');
+const chatbox_output = document.getElementById('Answer');
 
-// Function for the chatbox where we ask questions and get bot responses
 function chatbox() {
-    const Entered_Msg = chatbox_input.value;
-    let getAnswer;
-    const filtering_weather = Entered_Msg.match(/filter (\w+ ?\w*)/i);
+    const msg = chatbox_input.value.trim();
+    if (!msg) return;
 
-    if (Entered_Msg) {
-        chatbox_output.innerHTML += `<div class="My_question">You: ${Entered_Msg}</div>`;
-        chatbox_input.value = '';
+    const filtering_weather = msg.match(/filter (\w+ ?\w*)/i);
 
-        if (filtering_weather) {
-            const weatherCondition = filtering_weather[1].toLowerCase();
-            const rainForecasts = total_dataEntries.filter(entry => entry.weather[0].description.includes(weatherCondition));
+    chatbox_output.innerHTML += `<div class="My_question">You: ${msg}</div>`;
+    chatbox_input.value = '';
 
-            if (rainForecasts.length > 0) {
-                displayForecast(rainForecasts);
-                getAnswer = `Displaying forecast entries with ${weatherCondition}.`;
-            } else {
-                getAnswer = `No forecast entries with ${weatherCondition} found.`;
-            }
-        } else if (Entered_Msg.toLowerCase().includes('weather')) {
-            if (Entered_Msg.toLowerCase().includes('today')) {
-                getAnswer = `The weather today in ${document.getElementById('cityInput').value} is ${currentWeather}.`;
-            } else if (Entered_Msg.toLowerCase().includes('highest')) {
-                getAnswer = `The highest temperature is ${getHighestTemperature(temperatures)} °C.`;
-            } else if (Entered_Msg.toLowerCase().includes('lowest')) {
-                getAnswer = `The lowest temperature is ${getlowestTemperature(temperatures)} °C.`;
-            } else if (Entered_Msg.toLowerCase().includes('average')) {
-                getAnswer = `The average temperature is ${getaverageTemperature(temperatures)} °C.`;
-            } else if (Entered_Msg.toLowerCase().includes('asort')) {
-                sortTemperaturesAscending();
-                getAnswer = 'Temperatures have been sorted in ascending order.';
-            } else if (Entered_Msg.toLowerCase().includes('dsort')) {
-                sortTemperaturesDecending();
-                getAnswer = 'Temperatures have been sorted in decending order.';
-            } 
-            else {
-                getAnswer = 'I can provide weather data like today’s weather, highest, lowest, or average temperatures.';
-            }
+    let reply;
+
+    if (filtering_weather) {
+        const condition = filtering_weather[1].toLowerCase();
+        const matches = total_dataEntries.filter(e => e.weather[0].description.includes(condition));
+        if (matches.length > 0) {
+            displayForecast(matches);
+            reply = `Showing ${matches.length} forecast entries for "${condition}".`;
         } else {
-            getAnswer = 'I am currently able to answer weather-related queries only.';
+            reply = `No entries found for "${condition}".`;
         }
-
-        chatbox_output.innerHTML += `<div class="computer-answer">Computer: ${getAnswer}</div>`;
-        chatbox_output.scrollTop = chatbox_output.scrollHeight; 
+    } else if (msg.toLowerCase().includes('weather')) {
+        const city = document.getElementById('cityInput').value;
+        if (msg.toLowerCase().includes('today')) {
+            reply = `Current weather data is shown in the dashboard for ${city || 'the searched city'}.`;
+        } else if (msg.toLowerCase().includes('highest')) {
+            reply = temperatures.length
+                ? `Highest temperature: ${getHighestTemperature(temperatures)} °C`
+                : 'No data loaded yet. Search a city first.';
+        } else if (msg.toLowerCase().includes('lowest')) {
+            reply = temperatures.length
+                ? `Lowest temperature: ${getlowestTemperature(temperatures)} °C`
+                : 'No data loaded yet. Search a city first.';
+        } else if (msg.toLowerCase().includes('average')) {
+            reply = temperatures.length
+                ? `Average temperature: ${getaverageTemperature(temperatures)} °C`
+                : 'No data loaded yet. Search a city first.';
+        } else if (msg.toLowerCase().includes('asort')) {
+            sortTemperaturesAscending();
+            reply = 'Forecast sorted by temperature (ascending).';
+        } else if (msg.toLowerCase().includes('dsort')) {
+            sortTemperaturesDecending();
+            reply = 'Forecast sorted by temperature (descending).';
+        } else {
+            reply = 'Try: "weather highest", "weather lowest", "weather average", "filter rain", or "weather asort/dsort".';
+        }
+    } else {
+        reply = 'I only answer weather-related questions. Try "weather highest" or "filter rain".';
     }
+
+    chatbox_output.innerHTML += `<div class="computer-answer">🤖 ${reply}</div>`;
+    chatbox_output.scrollTop = chatbox_output.scrollHeight;
 }
 
-
-
-// Event listener call for the enter button in the chatbox
-const chat_button = document.getElementById('Sendbutton');
-chat_button.addEventListener('click', chatbox);
-
-// Handle Enter key for chat input
-chatbox_input.addEventListener('keypress', function(event) {
-    if (event.key === 'Enter') {
-        chatbox();
-    }
+document.getElementById('Sendbutton').addEventListener('click', chatbox);
+document.getElementById('question').addEventListener('keypress', e => {
+    if (e.key === 'Enter') chatbox();
 });
-
-// For deleting the chatbox messages 
-document.getElementById("removebutton").addEventListener("click", function() {
-    chatbox_output.innerHTML = ""; 
+document.getElementById('removebutton').addEventListener('click', () => {
+    chatbox_output.innerHTML = '';
 });

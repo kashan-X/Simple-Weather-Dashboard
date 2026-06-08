@@ -1,157 +1,136 @@
-
 let barChart, doughnutChart, line_Chart;
 
+function chart_Maker(Temperatures, weatherConditionsCount) {
+    const bar_chart = document.getElementById('temperature-bar-chart');
+    const Doughnut_chart = document.getElementById('weather-doughnut-c');
+    const lineChart = document.getElementById('temperature-line-c');
 
+    if (barChart) barChart.destroy();
+    if (doughnutChart) doughnutChart.destroy();
+    if (line_Chart) line_Chart.destroy();
 
-// function for making charts, All 3 type of charts are in this function
-function chart_Maker(Temperatures, weatherConditionsCount){
-     
-    
-  
-    
-    const bar_chart=document.getElementById('temperature-bar-chart');  // id of bar chart
-    const Doughnut_chart=document.getElementById('weather-doughnut-c'); // if of doughnut chart
-    const lineChart = document.getElementById('temperature-line-c'); // id of line chart
+    const conditions = Object.keys(weatherConditionsCount);
+    const colors = conditions.map(c => BackgroundColor_Updater(c));
 
-  
-    if (barChart) {
-        barChart.destroy();
-    }
-    if (doughnutChart) {
-        doughnutChart.destroy();
-    }
-    if (line_Chart) {
-        line_Chart.destroy();
-    }
+    const chartDefaults = {
+        color: '#7a90b0',
+        borderColor: 'rgba(59,139,255,0.12)',
+    };
 
-    const Color_conditions = Object.keys(weatherConditionsCount);
-    const Color_Store=[];  // array to store temperatures
+    Chart.defaults.color = chartDefaults.color;
 
+    const gridStyle = {
+        color: 'rgba(59,139,255,0.08)',
+        drawBorder: false,
+    };
 
-// this loop is for changing backgroundcolor of the charts according to the weather
-    for(let i=0; i<Color_conditions.length; i++){
-    
-        const condition = Color_conditions[i];
-        const color = BackgtroundColor_Updater(condition);
-        
-        Color_Store.push(color);
-    
-    }
+    const tickStyle = {
+        color: '#415570',
+        font: { family: "'Space Grotesk', sans-serif", size: 11 }
+    };
 
-    
-
-    // Bar chart
-    barChart= new Chart(bar_chart,{
-    
-    type: 'bar',
-    data:{
-     labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
-             datasets: [{
-                 label: 'Temperature (°C)',
-                 data: Temperatures.slice(0, 5), 
-                 backgroundColor: Color_Store,
-                 borderColor: 'rgba(255, 255, 255, 1)'
-             }]
-    
-    },
-    options: {
-             animation: { duration: 2000 ,
-                 easing: 'easeOutBounce'
-             }
-         }
-    
-    }
-    );
-    
-    
-    
-    
-    
-    
-    // Doughnut_chart
-    doughnutChart= new Chart(Doughnut_chart, {
-            type: 'doughnut',
-            data: {
-                labels: Object.keys(weatherConditionsCount),
-                datasets: [{
-                    data: Object.values(weatherConditionsCount),
-                    backgroundColor: Color_Store,
-                }]
+    // Bar Chart
+    barChart = new Chart(bar_chart, {
+        type: 'bar',
+        data: {
+            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
+            datasets: [{
+                label: 'Temp (°C)',
+                data: Temperatures.slice(0, 5),
+                backgroundColor: [
+                    'rgba(59,139,255,0.7)',
+                    'rgba(0,212,170,0.7)',
+                    'rgba(255,107,53,0.7)',
+                    'rgba(168,85,247,0.7)',
+                    'rgba(255,193,7,0.7)',
+                ],
+                borderColor: 'transparent',
+                borderRadius: 6,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { grid: gridStyle, ticks: tickStyle },
+                y: { grid: gridStyle, ticks: tickStyle }
             },
-            options: {
-                animation: { animateRotate: true,
-                    duration:2000
-                 }
-            }
-        });
-    
-    
-    
-    
-    //lineChart
-    line_Chart= new Chart(lineChart, {
-            type: 'line',
-            data: {
-                labels: ['1', '2', '3', '4', '5'], 
-                datasets: [{
-                    label: 'Temperature (°C)',
-                    data: Temperatures.slice(0, 5), 
-                    backgroundColor: Color_Store, 
-                    borderColor: 'rgba(255, 255, 255, 1)', 
-                    borderWidth: 2,
-                    fill: true 
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Temperature (°C)'
-                        }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Days'
-                        }
-                    }
-                },
-                animation: { duration: 2000,
-                    easing: 'easeOutBounce'
-                 }
-            }
-        });
-
-   
-    
-     }
-    
-           
-        
-     // this function return background color according to the weather
-    function BackgtroundColor_Updater(weatherCondition) {
-        switch(weatherCondition) {
-            case 'light rain':
-                return '#0E1A2A';
-            case 'scattered clouds':
-                return '#0F2A4D';
-            case 'clear sky':
-                return '#0A1D3B';
-            case 'haze':
-                return '#1A2B4D';
-            case 'overcast clouds':
-                return '#0B1A2C';
-            case 'few clouds':
-                return '#0C2B4D';
-            case 'broken clouds':
-                return '#1B2C4D';
-            case 'mist':
-                return '#0B1C3D';
-            case 'smoke':
-                return '#0C1D4D';
-            default:
-                return '#0A0A0A';
+            animation: { duration: 1500, easing: 'easeOutQuart' }
         }
-    }
+    });
+
+    // Doughnut Chart
+    doughnutChart = new Chart(Doughnut_chart, {
+        type: 'doughnut',
+        data: {
+            labels: conditions,
+            datasets: [{
+                data: Object.values(weatherConditionsCount),
+                backgroundColor: colors,
+                borderColor: '#0d1520',
+                borderWidth: 2,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                    labels: {
+                        color: '#7a90b0',
+                        font: { size: 10, family: "'Space Grotesk', sans-serif" },
+                        boxWidth: 10,
+                        padding: 8,
+                    }
+                }
+            },
+            animation: { animateRotate: true, duration: 1500 }
+        }
+    });
+
+    // Line Chart
+    line_Chart = new Chart(lineChart, {
+        type: 'line',
+        data: {
+            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
+            datasets: [{
+                label: 'Temp (°C)',
+                data: Temperatures.slice(0, 5),
+                borderColor: 'rgba(59,139,255,1)',
+                backgroundColor: 'rgba(59,139,255,0.08)',
+                borderWidth: 2,
+                pointBackgroundColor: 'rgba(59,139,255,1)',
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                fill: true,
+                tension: 0.4,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { grid: gridStyle, ticks: tickStyle },
+                y: { grid: gridStyle, ticks: tickStyle, beginAtZero: false }
+            },
+            animation: { duration: 1500, easing: 'easeOutQuart' }
+        }
+    });
+}
+
+function BackgroundColor_Updater(condition) {
+    const map = {
+        'light rain': 'rgba(59,139,255,0.75)',
+        'moderate rain': 'rgba(40,110,220,0.75)',
+        'scattered clouds': 'rgba(100,160,230,0.75)',
+        'clear sky': 'rgba(0,212,170,0.75)',
+        'haze': 'rgba(168,140,80,0.75)',
+        'overcast clouds': 'rgba(80,100,130,0.75)',
+        'few clouds': 'rgba(120,170,220,0.75)',
+        'broken clouds': 'rgba(90,120,160,0.75)',
+        'mist': 'rgba(130,160,190,0.75)',
+        'smoke': 'rgba(100,90,80,0.75)',
+    };
+    return map[condition] || 'rgba(59,139,255,0.6)';
+}
