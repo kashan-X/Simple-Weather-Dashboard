@@ -1,4 +1,4 @@
-# 🌤 WeatherNow Dashboard
+#  WeatherNow Dashboard
 
 > A sleek, real-time weather dashboard with 5-day forecasts, data visualizations, and a built-in weather assistant chatbot.
 
@@ -6,38 +6,38 @@
 
 ---
 
-## 📌 Overview
+##  Overview
 
-WeatherNow Dashboard is a fully client-side web application that fetches live weather data using the OpenWeatherMap API. Users can search any city worldwide to get current conditions, a detailed 5-day forecast, temperature analytics with charts, and interact with a basic weather assistant chatbot — all wrapped in a polished dark/light themed UI.
+WeatherNow Dashboard is a fully client-side web application that fetches live weather data using the OpenWeatherMap API. Users can search any city worldwide to get current conditions, a detailed 5-day forecast, temperature analytics with charts, and interact with a basic weather assistant chatbot all wrapped in a polished dark/light themed UI.
 
 ---
 
-## ✨ Features
+##  Features
 
-### 🌡️ Current Weather
+###  Current Weather
 - Real-time temperature, feels-like, humidity, and wind speed
 - Dynamic background images that change based on weather condition (rain, clear sky, mist, haze, etc.)
 - Weather condition icon from OpenWeatherMap
 
-### 📅 5-Day Forecast Table
+###  5-Day Forecast Table
 - Full 40-entry (3-hour interval) forecast data in a clean table
 - Columns: Date & Time, Temperature, Feels Like, Condition (with icon), Humidity
 - Sort forecast by temperature — ascending (`weather asort`) or descending (`weather dsort`) via chatbot
 
-### 📊 Temperature Analytics (Charts)
+###  Temperature Analytics (Charts)
 Three live-rendered charts using **Chart.js**:
 - **Bar Chart** – Temperature across the first 5 forecast periods
 - **Doughnut Chart** – Distribution of weather conditions (e.g., rain, clear, clouds)
 - **Line Trend Chart** – Temperature trend across the first 5 forecast periods
 
-### 📈 Summary Stats Cards
+###  Summary Stats Cards
 Quick-glance cards showing:
-- 🔺 Highest temperature
-- 🔻 Lowest temperature
-- ∅ Average temperature
-- 📊 Total forecast data points
+-  Highest temperature
+-  Lowest temperature
+-  Average temperature
+-  Total forecast data points
 
-### 🤖 Weather Assistant Chatbot
+###  Weather Assistant Chatbot
 An interactive chatbox supporting natural-language-style commands:
 
 | Command | Response |
@@ -50,24 +50,24 @@ An interactive chatbox supporting natural-language-style commands:
 | `weather dsort` | Sorts forecast descending by temperature |
 | `filter <condition>` | Filters forecast table by weather condition (e.g. `filter rain`) |
 
-### 📍 Geolocation Support
+###  Geolocation Support
 - "Use my location" button auto-detects the user's coordinates and fetches weather for their current city
 
-### 🕐 Search History
+###  Search History
 - Last 6 searched cities stored in `localStorage`
 - Clickable chips to instantly re-fetch any previous city
 
-### 🌙 Dark / Light Theme
+###  Dark / Light Theme
 - Toggle between dark (default) and light themes
 - Theme preference saved to `localStorage`
 
-### 🌡️ Unit Toggle (°C / °F)
+###  Unit Toggle (°C / °F)
 - Switch between Celsius and Fahrenheit at any time
 - All displayed temperatures, charts, and table values update instantly
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Technology | Purpose |
 |---|---|
@@ -83,7 +83,7 @@ An interactive chatbox supporting natural-language-style commands:
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 Simple-Weather-Dashboard/
@@ -112,7 +112,7 @@ Simple-Weather-Dashboard/
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 - A modern web browser (Chrome, Firefox, Edge, Safari)
@@ -135,11 +135,11 @@ Simple-Weather-Dashboard/
    - Simply open `design.html` in your browser, **or**
    - Use VS Code's Live Server extension for a better local experience
 
-> ⚠️ The OpenWeatherMap API key is included in `design.js` for demo purposes. For production use, move it to a backend or environment variable.
+>  The OpenWeatherMap API key is included in `design.js` for demo purposes. For production use, move it to a backend or environment variable.
 
 ---
 
-## 🔑 API Reference
+##  API Reference
 
 This project uses two **OpenWeatherMap** endpoints:
 
@@ -152,7 +152,7 @@ Sign up for a free API key at [openweathermap.org](https://openweathermap.org/ap
 
 ---
 
-## 📸 UI Pages
+##  UI Pages
 
 | View | Description |
 |---|---|
@@ -163,7 +163,7 @@ Navigation between views is handled via the sidebar (`Dashboard` / `Forecast Tab
 
 ---
 
-## 🎨 Design Highlights
+##  Design Highlights
 
 - **Dual theme system** using CSS custom properties (`--bg-base`, `--accent`, `--text-primary`, etc.) — zero JS needed to restyle
 - **Dynamic weather backgrounds** — the widget hero image changes based on the live weather condition
@@ -173,7 +173,7 @@ Navigation between views is handled via the sidebar (`Dashboard` / `Forecast Tab
 
 ---
 
-## ⚠️ Known Limitations
+##  Known Limitations
 
 - The chatbot is rule-based (keyword matching) — it does not use an AI/NLP backend
 - Background images must be manually provided in the `Images/` folder; missing images fall back gracefully
@@ -181,7 +181,7 @@ Navigation between views is handled via the sidebar (`Dashboard` / `Forecast Tab
 
 ---
 
-## 🤝 Contributing
+##  Contributing
 
 Contributions are welcome! Feel free to:
 - Open an issue for bugs or feature requests
@@ -189,14 +189,14 @@ Contributions are welcome! Feel free to:
 
 ---
 
-## 👤 Author
+##  Author
 
 **Kashan**
-- GitHub: [@kashan-code](https://github.com/kashan-code)
+- GitHub: [@kashan-code](https://github.com/kashan-X)
 - Live Project: [weather-forcaster-2.netlify.app](https://weather-forcaster-2.netlify.app/)
 
 ---
 
-## 📄 License
+##  License
 
 This project is open source and available under the [MIT License](LICENSE).
